@@ -146,6 +146,7 @@ function spawn() {
   next = randomPiece();
   if (collide(current.shape, current.x, current.y)) {
     endGame();
+    return;
   }
   drawNext();
 }
@@ -194,6 +195,10 @@ function draw() {
     for (let c = 0; c < COLS; c++)
       drawBlock(ctx, c, r, board[r][c], BLOCK);
 
+  // tras el Game Over `current` es la pieza que colisionó al aparecer: se
+  // dibuja solo el tablero para no pintarla encima de las piezas fijadas
+  if (gameOver) return;
+
   // ghost
   const gy = ghostY();
   for (let r = 0; r < current.shape.length; r++)
@@ -219,6 +224,7 @@ function drawNext() {
 }
 
 function endGame() {
+  if (gameOver) return;
   gameOver = true;
   cancelAnimationFrame(animId);
   overlayTitle.textContent = 'GAME OVER';
@@ -253,6 +259,11 @@ function loop(ts) {
     }
   }
   draw();
+  // lockPiece() puede terminar la partida (spawn -> endGame). En ese caso el
+  // cancelAnimationFrame() de endGame apunta al frame que ya se está
+  // ejecutando, así que no cancela nada: hay que cortar aquí para no encadenar
+  // otro requestAnimationFrame y dejar el juego corriendo tras el Game Over.
+  if (gameOver || paused) return;
   animId = requestAnimationFrame(loop);
 }
 
