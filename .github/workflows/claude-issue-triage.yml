@@ -75,7 +75,13 @@ jobs:
             ## Diagnóstico
 
             Publica un comentario en español con esta estructura exacta, empezando por la línea del
-            marcador HTML (sirve para reconocer tu comentario en futuras ediciones):
+            marcador HTML (sirve para reconocer tu comentario en futuras ediciones).
+
+            Escribe el comentario en Markdown compatible con GitHub (GFM): encabezados `##`/`###`,
+            negritas, listas con `-`, listas de tareas `- [ ]`, tablas, enlaces `[texto](url)`,
+            referencias a issues con `#<n>` y bloques de código vallados con el lenguaje
+            (```js, ```html, ```css). Cita las rutas y líneas como código en línea (`game.js:120`).
+            Nada de HTML crudo salvo el marcador `<!-- claude-triage -->`.
 
             <!-- claude-triage -->
             ## Diagnóstico automático
